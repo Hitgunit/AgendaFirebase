@@ -22,14 +22,8 @@ class MainActivity : AppCompatActivity() {
         itemList = ArrayList()
 
         itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-        itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
+        itemList.add(Item("Jose", "4521204043", "jose123@hotmail.com"))
+        itemList.add(Item("Maria", "4521597865", "maria@hotmail.com"))
 
         itemAdapter = ItemAdapter(itemList)
         recyclerView.adapter = itemAdapter
