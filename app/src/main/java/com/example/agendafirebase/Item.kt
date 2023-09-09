@@ -1,4 +1,4 @@
 package com.example.agendafirebase
 
-class Item {
+data class Item (val nombre: String, val telefono: String, val correo: String) {
 }
