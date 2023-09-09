@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 data class ItemAdapter (val itemList: ArrayList<Item>): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
 
+    //
+    var onItemClick: ((Item) -> Unit) ?= null
     class ItemViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView){
         val name: TextView = itemView.findViewById(R.id.txtName)
         val phone: TextView = itemView.findViewById(R.id.txtTelefono)
@@ -28,5 +30,10 @@ data class ItemAdapter (val itemList: ArrayList<Item>): RecyclerView.Adapter<Ite
         holder.name.text = item.nombre
         holder.phone.text = item.telefono
         holder.email.text = item.correo
+
+        //
+        holder.itemView.setOnClickListener{
+            onItemClick?.invoke(item)
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.agendafirebase
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,6 +33,13 @@ class MainActivity : AppCompatActivity() {
 
         itemAdapter = ItemAdapter(itemList)
         recyclerView.adapter = itemAdapter
+
+        //
+        itemAdapter.onItemClick = {
+            val intent = Intent(this, ItemDetailed::class.java)
+            intent.putExtra("item", it)
+            startActivity(intent)
+        }
 
     }
 }
