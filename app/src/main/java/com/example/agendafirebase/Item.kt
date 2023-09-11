@@ -3,6 +3,7 @@ package com.example.agendafirebase
 import android.os.Parcel
 import android.os.Parcelable
 
+//Se hace parceable
 data class Item(val nombre: String?, val telefono: String?, val correo: String?) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),

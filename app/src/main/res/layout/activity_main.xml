@@ -10,7 +10,7 @@
 
 
     <Button
-        android:id="@+id/myButton"
+        android:id="@+id/btnAgregar"
         android:layout_width="54dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

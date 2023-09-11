@@ -82,38 +82,30 @@
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Button
+        android:id="@+id/btnEditar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="168dp"
+        android:text="Editar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etxtEmail"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
         android:id="@+id/btnBorrar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="168dp"
         android:layout_marginEnd="116dp"
         android:text="Borrar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/btnEditar"
-        app:layout_constraintTop_toBottomOf="@+id/btnGuardar"
-        app:layout_constraintVertical_bias="0.085" />
-
-    <Button
-        android:id="@+id/btnEditar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="116dp"
-        android:text="Editar"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGuardar"
-        app:layout_constraintVertical_bias="0.085" />
-
-    <Button
-        android:id="@+id/btnGuardar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="108dp"
-        android:text="Guardar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etxtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/etxtEmail"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
