@@ -31,6 +31,7 @@ class ItemDetailed : AppCompatActivity() {
 
         val mode = intent.getStringExtra("mode")
 
+        //Evalua si es una nueva entrada o no
         if (mode == "new"){
             StartNew()
         } else{
@@ -43,6 +44,12 @@ class ItemDetailed : AppCompatActivity() {
         }
         //Boton Borrar
         btnBorrar.setOnClickListener {
+            //Borrar()
+            onBackPressed()
+        }
+        //Boton Guardar
+        btnGuardar.setOnClickListener {
+            //Guardar()
             onBackPressed()
         }
         }
@@ -76,6 +83,14 @@ class ItemDetailed : AppCompatActivity() {
         btnGuardar.visibility = View.VISIBLE
         btnEditar.visibility = View.GONE
         btnBorrar.visibility = View.GONE
+    }
+
+    fun Borrar(){
+
+    }
+
+    fun Guardar(){
+
     }
 
 }
