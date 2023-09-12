@@ -1,11 +1,15 @@
 package com.example.agendafirebase
 
+import android.content.ContentValues.TAG
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class ItemDetailed : AppCompatActivity() {
 
@@ -15,6 +19,11 @@ class ItemDetailed : AppCompatActivity() {
     lateinit var btnEditar: Button
     lateinit var btnBorrar: Button
     lateinit var btnGuardar: Button
+    //Conexion a firestore
+    val db = Firebase.firestore
+    //Identificador de firestore
+    var docId: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detailed)
@@ -30,6 +39,7 @@ class ItemDetailed : AppCompatActivity() {
         btnGuardar.visibility = View.GONE
 
         val mode = intent.getStringExtra("mode")
+
 
         //Evalua si es una nueva entrada o no
         if (mode == "new"){
@@ -49,7 +59,7 @@ class ItemDetailed : AppCompatActivity() {
         }
         //Boton Guardar
         btnGuardar.setOnClickListener {
-            //Guardar()
+            Guardar()
             onBackPressed()
         }
         }
@@ -67,13 +77,13 @@ class ItemDetailed : AppCompatActivity() {
         etxtPhone.isEnabled = false
         etxtEmail.isEnabled = false
 
-        //Se asigna el intnet
-        val item = intent.getParcelableExtra<Item>("item")
-        if (item != null){
-            etxtName.setText(item.nombre)
-            etxtPhone.setText(item.telefono)
-            etxtEmail.setText(item.correo)
-        }
+        //se ponen los valores
+        val intent = intent.getParcelableExtra<Item>("item")
+        etxtName.setText(intent?.nombre)
+        etxtPhone.setText(intent?.telefono)
+        etxtEmail.setText(intent?.correo)
+
+
     }
 
     fun Edit(){
@@ -90,6 +100,22 @@ class ItemDetailed : AppCompatActivity() {
     }
 
     fun Guardar(){
+        // Create a new user with a first and last name
+        val user = hashMapOf(
+            "name" to etxtName.text.toString(),
+            "phone" to etxtPhone.text.toString(),
+            "email" to etxtEmail.text.toString()
+        )
+
+        // Add a new document with a generated ID
+        db.collection("users")
+            .add(user)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
 
     }
 

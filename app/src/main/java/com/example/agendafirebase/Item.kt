@@ -3,9 +3,12 @@ package com.example.agendafirebase
 import android.os.Parcel
 import android.os.Parcelable
 
+
 //Se hace parceable
-data class Item(val nombre: String?, val telefono: String?, val correo: String?) : Parcelable {
+data class Item(val id: String?, val nombre: String?, val telefono: String?, val correo: String?) :
+    Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
@@ -13,6 +16,7 @@ data class Item(val nombre: String?, val telefono: String?, val correo: String?)
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(id)
         parcel.writeString(nombre)
         parcel.writeString(telefono)
         parcel.writeString(correo)

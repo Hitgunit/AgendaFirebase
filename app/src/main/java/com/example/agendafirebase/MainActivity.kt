@@ -40,19 +40,34 @@ class MainActivity : AppCompatActivity() {
             recyclerView.layoutManager = LinearLayoutManager(this)
 
             itemList = ArrayList()
-
-            itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-            itemList.add(Item("Jose", "4521204043", "jose123@hotmail.com"))
-            itemList.add(Item("Maria", "4521597865", "maria@hotmail.com"))
-
             itemAdapter = ItemAdapter(itemList)
             recyclerView.adapter = itemAdapter
 
-            //Proporciona el intent a la activity deseada
-            itemAdapter.onItemClick = {
-                val intent = Intent(this, ItemDetailed::class.java)
-                intent.putExtra("item", it)
-                startActivity(intent)
+            //datos de firestores
+            db.collection("users")
+                .addSnapshotListener{snapshots, error ->
+                    if (error != null){
+                        Log.w(TAG, "Error al escuchar los cambios", error)
+                        return@addSnapshotListener
+                    }
+                    itemList.clear()
+                    for (document in snapshots!!){
+                        val item  = Item(
+                            id = document.id,
+                            nombre = document.getString("name"),
+                            telefono = document.getString("phone"),
+                            correo = document.getString("email")
+                        )
+                        itemList.add(item)
+                    }
+                    itemAdapter.notifyDataSetChanged()
+
+                    //Proporciona el intent a la activity deseada
+                    itemAdapter.onItemClick = {
+                        val intent = Intent(this, ItemDetailed::class.java)
+                        intent.putExtra("item", it)
+                        startActivity(intent)
+                }
         }
 
     }
@@ -61,21 +76,5 @@ class MainActivity : AppCompatActivity() {
         val intent = Intent(this, ItemDetailed::class.java)
         intent.putExtra("mode", "new")
         startActivity(intent)
-        // Create a new user with a first and last name
-        val user = hashMapOf(
-            "first" to "Ada",
-            "last" to "Lovelace",
-            "born" to 1815
-        )
-
-        // Add a new document with a generated ID
-        db.collection("users")
-            .add(user)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
     }
 }
