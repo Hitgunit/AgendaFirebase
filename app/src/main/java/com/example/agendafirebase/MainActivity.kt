@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                     itemAdapter.onItemClick = {
                         val intent = Intent(this, ItemDetailed::class.java)
                         intent.putExtra("item", it)
+                        intent. putExtra("mode", "edit")
                         startActivity(intent)
                 }
         }
