@@ -32,27 +32,30 @@ class ItemDetailed : AppCompatActivity() {
         //Ocultar el boton guardar
         btnGuardar.visibility = View.GONE
 
+        //Se obtiene el mode
         val mode = intent.getStringExtra("mode")
+        //Se inicia el item con los itemes necesarios
+        val item = intent.getParcelableExtra<Item>("item")
 
         //Evalua si es una nueva entrada o no
         if (mode == "new"){
             StartNew()
         } else{
-            Start()
+            Start(item)
         }
 
         //Boton Editar
         btnEditar.setOnClickListener {
-            Edit()
+            Edit(item)
         }
         //Boton Borrar
         btnBorrar.setOnClickListener {
-            //Borrar()
+            Borrar(item)
             onBackPressed()
         }
         //Boton Guardar
         btnGuardar.setOnClickListener {
-            Guardar()
+            Guardar(mode, item)
             onBackPressed()
         }
         }
@@ -64,14 +67,14 @@ class ItemDetailed : AppCompatActivity() {
     }
 
     //Cuando es un registro existente
-    fun Start(){
+    fun Start(item: Item?){
         //Se hacen no editables
         etxtName.isEnabled = false
         etxtPhone.isEnabled = false
         etxtEmail.isEnabled = false
 
         //Se asigna el intnet
-        val item = intent.getParcelableExtra<Item>("item")
+
         if (item != null){
             etxtName.setText(item.nombre)
             etxtPhone.setText(item.telefono)
@@ -79,27 +82,49 @@ class ItemDetailed : AppCompatActivity() {
         }
     }
 
-    fun Edit(){
+    fun Edit(item: Item?){
         etxtName.isEnabled = true
         etxtPhone.isEnabled = true
         etxtEmail.isEnabled = true
         btnGuardar.visibility = View.VISIBLE
         btnEditar.visibility = View.GONE
         btnBorrar.visibility = View.GONE
-    }
-
-    fun Borrar(){
 
     }
 
-    fun Guardar(){
+    fun Borrar(item: Item?){
+        if (item?.id != null){
+            //Se le informa el contexto a la db
+            val db = dbHelper.writableDatabase
+            //Variable que contiene la condicion
+            val where = "id=?"
+            //variable que guarda el id
+            val whereArgs = arrayOf(item.id.toString())
+            //Se mand allamar el delete con los parametros deseados
+            db.delete("data", where, whereArgs)
+            //Se cierra la conexion
+            db.close()
+        }
+        onBackPressed()
+    }
+
+    fun Guardar(mode: String?, item: Item?){
         val db = dbHelper.writableDatabase
         val data = ContentValues().apply {
             put("name", etxtName.text.toString())
             put("phone", etxtPhone.text.toString())
             put("email", etxtEmail.text.toString())
         }
-        val newRowId = db.insert("data", null, data)
+        //Verifica si es un nueov registro o un registro existente
+        if (mode == "new"){
+            db.insert("data", null, data)
+        } else{
+            val where = "id=?"
+            val whereArg = arrayOf(item?.id.toString())
+            db.update("data", data, where, whereArg)
+        }
+        db.close()
+
     }
 
 }
