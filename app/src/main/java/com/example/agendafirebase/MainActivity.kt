@@ -13,6 +13,9 @@ class MainActivity : AppCompatActivity() {
     lateinit var recyclerView: RecyclerView
     lateinit var itemAdapter: ItemAdapter
     lateinit var btnAgregar: Button
+
+    //Conexion con SQLite
+    val dbHelper = SQLiteHelper(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -26,16 +29,18 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+    override fun onResume() {
+        super.onResume()
+        UpdateView()
+    }
+
         fun StartRecyclerView(){
             recyclerView = findViewById(R.id.recyclerView)
             recyclerView.setHasFixedSize(true)
             recyclerView.layoutManager = LinearLayoutManager(this)
 
-            itemList = ArrayList()
-
-            itemList.add(Item("Adair", "4521040036", "ada_dp10@hotmail.com"))
-            itemList.add(Item("Jose", "4521204043", "jose123@hotmail.com"))
-            itemList.add(Item("Maria", "4521597865", "maria@hotmail.com"))
+            //Se obtiene los datos
+            val itemList = getData()
 
             itemAdapter = ItemAdapter(itemList)
             recyclerView.adapter = itemAdapter
@@ -47,6 +52,32 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
         }
 
+    }
+
+    fun UpdateView(){
+        val newItem = getData()
+        itemAdapter.itemList = newItem
+        itemAdapter.notifyDataSetChanged()
+    }
+
+    fun getData(): ArrayList<Item>{
+        val itemList = ArrayList<Item>()
+        val db = dbHelper.readableDatabase
+        val cursor = db.rawQuery("SELECT * FROM data", null)
+
+        if (cursor.moveToFirst()){
+            do{
+                val name = cursor.getString(1)
+                val phone = cursor.getString(2)
+                val email = cursor.getString(3)
+
+                itemList.add(Item(name, phone, email))
+            } while (cursor.moveToNext())
+        }
+        cursor.close()
+        db.close()
+
+        return itemList
     }
 
     fun Agregar(){

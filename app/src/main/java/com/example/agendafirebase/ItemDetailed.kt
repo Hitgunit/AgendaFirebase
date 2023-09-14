@@ -1,5 +1,6 @@
 package com.example.agendafirebase
 
+import android.content.ContentValues
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,6 +16,8 @@ class ItemDetailed : AppCompatActivity() {
     lateinit var btnEditar: Button
     lateinit var btnBorrar: Button
     lateinit var btnGuardar: Button
+    //Conexion con SQLite
+    val dbHelper = SQLiteHelper(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_detailed)
@@ -49,7 +52,7 @@ class ItemDetailed : AppCompatActivity() {
         }
         //Boton Guardar
         btnGuardar.setOnClickListener {
-            //Guardar()
+            Guardar()
             onBackPressed()
         }
         }
@@ -90,7 +93,13 @@ class ItemDetailed : AppCompatActivity() {
     }
 
     fun Guardar(){
-
+        val db = dbHelper.writableDatabase
+        val data = ContentValues().apply {
+            put("name", etxtName.text.toString())
+            put("phone", etxtPhone.text.toString())
+            put("email", etxtEmail.text.toString())
+        }
+        val newRowId = db.insert("data", null, data)
     }
 
 }

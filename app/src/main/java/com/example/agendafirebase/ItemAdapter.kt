@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-data class ItemAdapter (val itemList: ArrayList<Item>): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
+data class ItemAdapter (var itemList: ArrayList<Item>): RecyclerView.Adapter<ItemAdapter.ItemViewHolder>(){
 
     //Regresa un Unit (Void)
     var onItemClick: ((Item) -> Unit) ?= null
